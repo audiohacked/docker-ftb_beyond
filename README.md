@@ -4,17 +4,17 @@ To pull the image:
 docker pull audiohacked/ftb_beyond:stable
 ```
 
-It's highly recommended run a data container:
+It's highly recommended run a named data volume:
 ```
-docker run --name ftb_beyond_datastore audiohacked/ftb_beyond:stable true
+docker volume create minecraft_ftb_beyond_data
 ```
 
 Then, run the server container:
 ```
 docker run --detach --interactive --tty \
     --name ftb_beyond \
-    --volumes-from ftb_beyond_datastore \
-    -p 25565:25565 \
-    -e EULA=TRUE \
+    --volume minecraft_ftb_beyond_data:/minecraft/world \
+    --publish 25565:25565 \
+    --env EULA=TRUE \
     audiohacked/ftb_beyond:stable
 ```
